@@ -100,7 +100,23 @@ const updateBlog = async(req,res,next)=>{
 }
 
 const deleteBlog = async(req,res,next)=>{
+
+    try {
+
+        const id = req.params.id;
+
+        const savedata = await blog.findByIdAndDelete(id)
+
+        if(!savedata){
+            return next(new httpError("blog not found"))
+        }
+
+        res.status(200).json({message:"blog information successfully deleted"})
+
+    } catch (error) {
+        next(new httpError(error.message))
+    }
     
 }
 
-export default {addBlog ,  allblog , specificBlog , updateBlog}
+export default {addBlog ,  allblog , specificBlog , updateBlog , deleteBlog}
